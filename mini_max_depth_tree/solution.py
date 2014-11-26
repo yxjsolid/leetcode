@@ -9,20 +9,52 @@ __author__ = 'xyang'
 class Solution:
     # @param root, a tree node
     # @return an integer
-
     def __init__(self):
         self.depthTmp = 0
+        self._isBalanced = True
+
         self._MinDepth = None
         self._MaxDepth = None
 
+    def isBalanced(self, root):
+        if root is None:
+            return True
+
+        self.loopCheckBalance(root)
+        return self._isBalanced
+
+    def checkBalanced(self, root):
+        if root is None:
+            return True
+
+        if root.right and root.left:
+            right_max = self.maxDepth(root.right)
+            left_max = self.maxDepth(root.left)
+
+            diff = abs(right_max - left_max)
+            if diff <= 1:
+                return True
+            return False
+        else:
+            if root.right is None and root.left is None:
+                return True
+            else:
+                _max = self.maxDepth(root)
+                if _max > 2:
+                    return False
+                return True
 
     def maxDepth(self, root):
+        self.depthTmp = 0
+        self._MaxDepth = None
         if root is None:
             return 0
         self.loop(root)
         return self._MaxDepth
 
     def minDepth(self, root):
+        self.depthTmp = 0
+        self._MinDepth = None
         if root is None:
             return 0
         self.loop(root)
@@ -47,7 +79,6 @@ class Solution:
 
     def loop(self, root):
         self.depthTmp += 1
-        #print root.val, self.depthTmp
         if self.isLeaf(root):
             self.setMin()
             self.setMax()
@@ -61,7 +92,18 @@ class Solution:
         if self.depthTmp > 1:
             self.depthTmp -= 1
 
-        #print "aaaa"
 
+    def loopCheckBalance(self, root):
+        if not self._isBalanced:
+            return
 
+        if self.checkBalanced(root):
+            pass
+        else:
+            self._isBalanced = False
 
+        if root.left:
+            self.loopCheckBalance(root.left)
+
+        if root.right:
+            self.loopCheckBalance(root.right)

@@ -114,6 +114,9 @@ def buildTree(treeIn):
                 if root is None:
                     root = node
 
+                if node is None:
+                    continue
+
                 if index < len(raw2):
                     node.left = raw2[index]
 
@@ -122,13 +125,13 @@ def buildTree(treeIn):
                 index += 2
 
 
-    # for raw in nodeList:
-    #     for node in raw:
-    #         if node is None:
-    #             print "#",
-    #         else:
-    #             print node.val,
-    #     print
+    for raw in nodeList:
+        for node in raw:
+            if node is None:
+                print "#",
+            else:
+                print node.val,
+        print
 
     #dumpTree(root)
     return root
@@ -142,14 +145,36 @@ def test(treeIn):
     print "mindepth:", mmin
     print "maxdepth:", mmax
 
+
+def testBalance(treeIn):
+    root = buildTree(treeIn)
+    s = Solution()
+    mmax = s.maxDepth(root)
+    mmin = s.minDepth(root)
+    print "mindepth:", mmin
+    print "maxdepth:", mmax
+
+    print s.isBalanced(root)
+
+
 if __name__ == "__main__":
     # treeIn = [3,9,20,"x","x",15,7]
     # test(treeIn)
 
-    treeIn = [1,2,3,4,5]
-    test(treeIn)
+    # treeIn = [1,2,3,4,5]
+    # test(treeIn)
 
 
+    # treeIn = [1,"x",2,"x",3]
+    # testBalance(treeIn)
+    #
+    #
+    treeIn = [1,2]
+    testBalance(treeIn)
+    #
+    #
+    treeIn = [1,2,2,3,"x","x",3,4,"x","x",4]
+    testBalance(treeIn)
 
-
-
+    # treeIn = [1,2,2,3,3,3,3,4,4,4,4,4,4,"x","x",5,5]
+    # testBalance(treeIn)
