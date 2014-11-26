@@ -17,22 +17,27 @@ class STACK_NODE_LIST():
     def search(self, value):
         cnt = self.nodeCnt
         #print "node Cnt:", cnt
-
         lIndex = 0
         rIndex = cnt -1
         index = cnt/2
         tmp = 0
 
-        while True:
-            if value > self.getValue(index):
-                if rIndex - lIndex <= 2:
+        #print "search value:", value, "node cnt = ", cnt
 
+        while True:
+            #print "index:", index, "value:", self.getValue(index)
+
+            if value == self.getValue(index):
+                return index
+            elif value > self.getValue(index):
+                if rIndex - lIndex <= 2:
                     return index + 1
                 lIndex = index
                 index += (rIndex - lIndex)/2
             else:
                 if rIndex - lIndex <= 2:
-
+                    if value == self.getValue(index - 1):
+                        return index - 1
                     return index
                 rIndex = index
                 index -= (rIndex - lIndex)/2
@@ -70,12 +75,16 @@ class STACK_NODE_LIST():
         pass
 
     def remove(self, value):
+        #print "before remove:"
+        #self.dump()
         node = self.nodeDict[value]
         node.cnt -= 1
 
         if node.cnt == 0:
             index = self.search(value)
+            #print "remove", index
             self.nodeList.pop(index)
+            #self.dump()
             #self.nodeList.remove(node
             self.nodeCnt -= 1
             self.nodeDict.pop(value)
@@ -89,6 +98,11 @@ class STACK_NODE_LIST():
         return None
 
     def dump(self):
+        print "sortList:"
+        for node in self.nodeList:
+            print node.value,
+        print
+
         pass
 
 
@@ -109,7 +123,7 @@ class MinStack:
     # @return nothing
     def pop(self):
         value = self.top()
-        if value:
+        if value is not None:
             self.stack.pop()
             self.stackSort.remove(value)
             self.length -= 1
@@ -119,7 +133,6 @@ class MinStack:
     def top(self):
         if self.length > 0:
             return self.stack[self.length - 1]
-
         return None
 
     # @return an integer

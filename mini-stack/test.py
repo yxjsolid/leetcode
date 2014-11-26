@@ -1012,17 +1012,16 @@ if __name__ == "__main__":
 
     stack = MinStack()
     stack.push(1)
+    stack.push(0)
 
-    tt = time.time()
 
-    test1(stack)
 
     for i in range(-10000, 50000):
         stack.push(i)
-    print time.time() - tt
 
-    tt = time.time()
-    for j in range(10):
+
+    for j in range(500000):
         stack.pop()
 
-    print time.time() - tt
+
+    stack.dump()
