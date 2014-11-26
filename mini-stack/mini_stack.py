@@ -1,65 +1,37 @@
 class MinStack:
     def __init__(self):
         self.stack = []
+        self.minStack = []
         self.length = 0
-        self.currentMin = None
-        self.minValCnt = 0
+
+    def pushMin(self, x):
+        self.minStack.append(x)
+
+    def popMin(self):
+        self.minStack.pop()
 
     # @param x, an integer
     # @return an integer
     def push(self, x):
         self.stack.append(x)
         self.length += 1
-        if self.currentMin is None:
-            self.currentMin = x
-            self.minValCnt = 1
+
+        currentMin = self.getMin()
+        if currentMin is None:
+            self.pushMin(x)
         else:
-            if self.currentMin == x:
-                self.minValCnt += 1
-            elif x < self.currentMin:
-                self.currentMin = x
-                self.minValCnt = 1
-
-        #print "\nafter push"
-        #self.dump()
-
-    def getNextMin(self):
-        minVal = None
-        cnt = 0
-        for x in self.stack:
-            if minVal is None:
-                minVal = x
-                cnt = 1
-            else:
-                if minVal < x:
-                    pass
-                elif minVal == x:
-                    cnt +=1
-                else:
-                    minVal = x
-                    cnt = 1
-
-        self.currentMin = minVal
-        self.minValCnt = cnt
+            if currentMin >= x:
+                self.pushMin(x)
 
 
-    #self.stackDict[index] =
-    # @return nothing
     def pop(self):
         value = self.top()
         if value is not None:
             self.stack.pop()
-            if value == self.currentMin:
-                self.minValCnt -= 1
-                if self.minValCnt == 0:
-                    #print "getMin"
-                    self.getNextMin()
-                    pass
+            if value == self.getMin():
+                self.popMin()
 
             self.length -= 1
-
-        #print "\nafter pop"
-        #self.dump()
 
     # @return an integer
     def top(self):
@@ -69,9 +41,12 @@ class MinStack:
 
     # @return an integer
     def getMin(self):
-        return self.currentMin
+        length = len(self.minStack)
+
+        if length:
+            return self.minStack[length - 1]
+        return None
 
     def dump(self):
         print "dump:"
         print self.stack
-        print self.currentMin, self.minValCnt
