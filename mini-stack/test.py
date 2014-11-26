@@ -2,10 +2,8 @@ __author__ = 'xyang'
 import time
 from mini_stack import *
 
-if __name__ == "__main__":
 
-    stack = MinStack()
-
+def test1(stack):
     stack.push(275)
     stack.getMin()
     stack.push(-867)
@@ -1008,3 +1006,23 @@ if __name__ == "__main__":
     stack.getMin()
     stack.top()
     stack.pop()
+
+
+if __name__ == "__main__":
+
+    stack = MinStack()
+    stack.push(1)
+
+    tt = time.time()
+
+    test1(stack)
+
+    for i in range(-10000, 50000):
+        stack.push(i)
+    print time.time() - tt
+
+    tt = time.time()
+    for j in range(10):
+        stack.pop()
+
+    print time.time() - tt
