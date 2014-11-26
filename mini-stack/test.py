@@ -1008,20 +1008,43 @@ def test1(stack):
     stack.pop()
 
 
+def test2(stack):
+    stack.push(2)
+    stack.push(0)
+    stack.push(3)
+    stack.push(0)
+    print stack.getMin(),
+    stack.pop()
+    print stack.getMin(),
+    stack.pop()
+    print stack.getMin(),
+    stack.pop()
+
+    print stack.getMin()
+
+    stack.dump()
+
 if __name__ == "__main__":
 
     stack = MinStack()
-    stack.push(1)
-    stack.push(0)
+    # stack.push(1)
+    # stack.push(0)
 
 
+    # test1(stack)
 
-    for i in range(-10000, 50000):
-        stack.push(i)
+    test2(stack)
 
-
-    for j in range(500000):
-        stack.pop()
+    # for i in range(-10000, 50000):
+    #     stack.push(i)
+    #
+    # for i in range(-10000, 50000):
+    #     stack.push(i)
+    #
+    # stack.dump()
+    #
+    # for j in range(500000):
+    #     stack.pop()
 
 
     stack.dump()
