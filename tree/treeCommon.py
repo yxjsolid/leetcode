@@ -7,6 +7,37 @@ class TreeNode:
         self.left = None
         self.right = None
 
+class BSTREE_GEN():
+    def __init__(self, serial):
+        self.serial = serial
+        self.root = None
+        self.gen()
+
+    def gen(self):
+        for val in self.serial:
+            if self.root is None:
+                root = TreeNode(val)
+            else:
+                self.insert(val)
+
+    def insert(self, val):
+        curNode = self.root
+        nextNode = None
+
+        while True:
+            if val > curNode.val:
+                nextNode = curNode.right
+                if nextNode is None:
+                    curNode.right = TreeNode(val)
+                    return
+                else:
+                    curNode = nextNode
+            else:
+                nextNode = curNode.left
+                if nextNode is None:
+                    curNode.left = TreeNode(val)
+                    return
+
 def dumpTree(node):
     if node.left:
         dumpTree(node.left)
