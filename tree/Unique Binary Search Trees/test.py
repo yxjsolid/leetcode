@@ -4,29 +4,33 @@ from solution import *
 from tree.treeCommon import *
 
 
+def appendResult(orig, n):
 
-def genAllN(n):
-    nL = []
-    for i in range(n):
-        nL.append(i+1)
-    print nL
-    newNL = nL[:]
+    if n == 1:
+        newList = [[1]]
+    else:
+        newList = []
+        for row in orig:
+            for i in range(len(row) + 1):
+                newRow = row[:]
+                newRow.insert(i, n)
+                newList.append(newRow)
 
-    for j in range(n):
-        start = newNL.pop(0)
-        for i in range(n -1):
-            tmp = newNL[:]
-            tmp.insert(i+1, start)
+    #for e in newList:
+    #    print e
+    return newList
 
-            if j == n - 1 and i == n - 2:
-                pass
-            else:
-                print tmp
-
-        newNL = tmp[:]
+def genTreeSerialList(n):
+    serialList = []
+    for i in range(1, n+1):
+        serialList = appendResult(serialList, i)
+        #print serialList
 
 
+    for row in serialList:
+        print row
 
+    return serialList
 
 def test(n):
 
@@ -38,4 +42,8 @@ def test(n):
 if __name__ == "__main__":
     treeIn = [3,1,5,0,2,4,6,"x","x","x",3]
 
-    test(3)
+    #genTreeSerialList(4)
+
+    test(4)
+
+    #genTreeSerialList(9)
