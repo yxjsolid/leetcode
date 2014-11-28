@@ -82,30 +82,114 @@ def buildBSTree(treeIn, infoNodeList):
     tree = BSTREE_GEN(treeIn, infoNodeList)
     return tree.root
 
-class INFO_NODE:
+
+
+
+class CAT_NODE(TreeNode):
     def __init__(self, val):
+        TreeNode.__init__(self, val)
         self.val = val
-        self.posList = [] #level, (0, -1, 1)[left,root, right]
-        pass
+        self.serialDict = {}
+        self.level = 0
+        self.leafSerialList = []
+        self.leafCnt = 0
 
-    def updatePos(self, level, pos):
-        info = [level, pos]
-        if info not in self.posList:
-            self.posList.append(info)
+    def getNode(self, val):
+        if self.serialDict.has_key(val):
+            catNode = self.serialDict[val]
+        else:
+            catNode = CAT_NODE(val)
+            self.serialDict[val] = catNode
+        return catNode
+
+    def handle(self, serialListIn):
+        # print "val:", self.val,
+        # print "handle:", serialListIn
+
+        if len(serialListIn) == 2:
+            a, b = serialListIn
+            if (a > self.val and b > self.val) or (a < self.val and b < self.val):
+                serialListIn.sort()
+            else:
+                pass
+
+            if serialListIn in self.leafSerialList:
+                pass
+            else:
+                # print "val:", self.val,
+                # print "append:", serialListIn
+                self.leafSerialList.append(serialListIn)
+                self.leafCnt += 1
+        else:
+            val = serialListIn.pop()
+            node = self.getNode(val)
+            node.handle(serialListIn)
 
 
-    def dump(self):
+    def getLeafCnt(self):
+        cnt = 0
+        if len(self.serialDict) == 0:
+            pass
+        else:
+            cnt = 1
+            pass
 
-        print "val:", self.val
-        for pos in self.posList:
-            level , p = pos
-            print "level", level, p
+
+        for nodeyKey in self.serialDict:
+            cnt += self.serialDict[nodeyKey].getLeafCnt()
+        return cnt
 
 
-    def getPosCnt(self):
-        self.dump()
-        return len(self.posList)
 
+
+
+
+    def dump(self, level):
+        level += 1
+        if len(self.serialDict) == 0:
+            self.printLeaf()
+            print
+
+        for nodeyKey in self.serialDict:
+            #self.printPad(level)
+            self.printVal()
+            self.serialDict[nodeyKey].dump(level)
+            #print self.serialDict[nodeyKey]
+
+        return level
+
+    def printPad(self, level):
+        pad = "\t"* level
+        print
+        print pad,
+
+    def printVal(self):
+        if self.val:
+            print self.val,
+
+    def printLeaf(self):
+        for serial in self.leafSerialList:
+            print "leaf:", serial
+
+
+class CAT_ROOT(CAT_NODE):
+    def __init__(self, n):
+        CAT_NODE.__init__(self, 0)
+        for i in range(n):
+            self.getNode(i + 1)
+
+
+    def dump(self, n):
+        for key in self.serialDict:
+            node = self.serialDict[key]
+            print node.val
+            node.dump(1)
+
+
+
+
+
+    pass
 
 class Solution:
     # @param root, a tree node
@@ -120,73 +204,21 @@ class Solution:
         pass
 
 
-    def check(self, n):
-        newUniqueTree = []
-        if n == 1:
-            self.uniqueTree = [[1]]
-        else:
-            for serial in self.uniqueTree:
-                #print "serial",serial
-                num = len(serial)
-
-                newRow = serial[:]
-                newRow.insert(0, n)
-                newUniqueTree.append(newRow)
-
-                newRow = serial[:]
-                newRow.insert(num, n)
-                newUniqueTree.append(newRow)
-
-
-                for i in range(num + 1):
-                    if i == 0 or i == num:
-                        continue
-                    else:
-                        newRow = serial[:]
-                        newRow.insert(i, n)
-
-                        root = buildBSTree(newRow, None)
-                        self.getSerial(root)
-
-                        #print "check serial:", self.serial
-
-                        if self.serial not in newUniqueTree:
-                            newUniqueTree.append(newRow)
-
-            self.uniqueTree = newUniqueTree
-
-        for row in self.uniqueTree:
-
-            print row
-        print
-
-    def numTrees1(self, n):
-        for i in range(1, n + 1):
-            self.check(i)
-        return len(self.uniqueTree)
-
-
-
 
     def numTrees(self, n):
         serialList = genTreeSerialList(n)
 
-        for i in range(n):
-            infoNode = INFO_NODE(i+1)
-            self.infoNodeList.append(infoNode)
-
+        root = CAT_ROOT(n)
         for serial in serialList:
-            root = buildBSTree(serial, self.infoNodeList)
-            pass
+            root.handle(serial)
 
+        cnt = root.dump(0)
 
-        cnt = 0
-        for i in range(n):
-            node = self.infoNodeList[i]
-            tmp = node.getPosCnt()
-            cnt = max(cnt, tmp)
+        cnt = root.getLeafCnt()
 
-        return cnt
+        print "cnt :", cnt
+
+        pass
 
 
     def getSerial(self, root):
