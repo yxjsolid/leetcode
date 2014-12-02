@@ -16,7 +16,7 @@ class BSTREE_GEN():
     def gen(self):
         for val in self.serial:
             if self.root is None:
-                root = TreeNode(val)
+                self.root = TreeNode(val)
             else:
                 self.insert(val)
 
@@ -37,6 +37,8 @@ class BSTREE_GEN():
                 if nextNode is None:
                     curNode.left = TreeNode(val)
                     return
+                else:
+                    curNode = nextNode
 
 def dumpTree(node):
     if node.left:

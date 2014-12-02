@@ -3,6 +3,12 @@ class MY_NODE():
         self.serial = []
         self.cnt = 1
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 class Solution:
     # @param root, a tree node
     # @return an integer
@@ -105,3 +111,42 @@ class Solution:
 
             cnt += node.cnt
         return cnt
+
+
+    def serialAppend1(self, serial, n):
+        newList = []
+        newList.append(serial + [n])
+        newList.append([n] + serial)
+
+
+
+
+        index = 0
+        lastVal = serial[0]
+        for val in serial:
+            if val <= lastVal:
+                pass
+            else:
+                newSerial = serial[0:index:] + [n] + serial[index:]
+                newList.append(newSerial)
+                lastVal = val
+            index += 1
+        return newList
+
+
+    def generateTrees(self, n):
+
+        if n == 1 :
+
+
+
+
+        serialList = [[1,2],[2,1]]
+
+        for i in range(1, n+1):
+
+            for serial in serialList:
+                self.serialAppend1(serial, 1)
+
+
+        pass
