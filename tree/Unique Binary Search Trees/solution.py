@@ -73,19 +73,35 @@ class Solution:
 
     def numTrees(self, n):
 
+        self.result = {}
+        self.result[0] = 1
+        self.result[1] = 1
+        self.result[2] = 2
+
+        if n < 3:
+            return self.result[n]
+
+        for i in range(3, n + 1):
+            a = 0
+            for p in range(0, i):
+                a += self.result[i - 1 - p]*self.result[p]
+            self.result[i] =a
+
+        return self.result[n]
+
+    def numTrees1(self, n):
         if n == 1:
             return 1
 
         for i in range(2, n + 1):
             self.gen(i, self.resultDict[i - 1])
 
-
-
-
         cnt = 0
         for node in self.resultDict[n]:
-            print node.cnt, node.serial
+
+            if node.cnt > 1:
+                print node.cnt, node.serial
+
+
             cnt += node.cnt
-
-
         return cnt

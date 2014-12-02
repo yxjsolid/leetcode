@@ -31,11 +31,11 @@ if __name__ == "__main__":
     tt = time.time()
 
     #test(5)
-
+            #[1, 2, 3, 4,  5,  6,   7,    8,   9,    10,     11
     reslut = [1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012]
 
 
-    for i in range(12, 13):
+    for i in range(2, 13):
         r = test(i)
         if r != reslut[i -1]:
             print "n: ", i,
