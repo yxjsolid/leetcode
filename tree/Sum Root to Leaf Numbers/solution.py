@@ -10,35 +10,30 @@ class Solution:
     # @param root, a tree node
     # @param sum, an integer
     # @return a boolean
-    def __init__(self):
-        self.sum = 0
-        self.result = 0
 
+class Solution:
+    # @param root, a tree node
+    # @param sum, an integer
+    # @return a boolean
 
-    def loop(self, root):
-        self.sum = self.sum*10 + root.val
-
-
-        if root.left:
-            self.loop(root.left)
-
-        if root.right:
-            self.loop(root.right)
-
+    def loop(self, root, s):
+        s = s*10 + root.val
 
         if root.left is None and root.right is None:
-            self.result += self.sum
+            return s
 
+        val = 0
+        if root.left:
+            val = self.loop(root.left, s)
 
-        self.sum = (self.sum - root.val) /10
+        if root.right:
+            val += self.loop(root.right, s)
 
+        return val
 
     def sumNumbers(self, root):
         if root is None:
             return 0
-        self.loop(root)
-        return self.result
-
-
+        return self.loop(root, 0)
 
 
