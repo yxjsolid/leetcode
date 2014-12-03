@@ -82,6 +82,6 @@ if __name__ == "__main__":
 
     root = buildTree1()
     s = Solution()
-    s.pathSum(root, 1)
+    print s.sumNumbers(root)
 
 
