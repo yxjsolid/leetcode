@@ -17,14 +17,12 @@ class Solution:
         self.resultList = []
 
 
-
     def loop(self, root):
         self.sum += root.val
         self.serial.append(root.val)
 
         if root.left:
             self.loop(root.left)
-
 
         if root.right:
             self.loop(root.right)
